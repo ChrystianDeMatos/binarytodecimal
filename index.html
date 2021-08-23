@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet"> -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+
+  <title>Bin2Dec</title>
+  <style>
+    body {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+
+      color: white;
+
+      box-sizing: border-box;
+
+      font-family: 'Roboto', sans-serif;
+
+      font-size: 30px;
+      margin: 0;
+      background-color: #333;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .card {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      padding: 1rem;
+
+      background-color: rgba(255, 255, 255, 0.1);
+
+      animation: boxShadow 2s ease-in-out infinite alternate-reverse
+    }
+    @keyframes boxShadow {
+      from {box-shadow: -5px -5px 30px 5px red, 5px 5px 30px 5px blue;}
+      to {box-shadow: -5px -5px 30px 5px blue, 5px 5px 30px 5px red;}
+    }
+
+    .binaryInput {
+      margin-top: 10px;
+    }
+  </style>
+  <script>
+    function selectById(id) {
+      return document.querySelector("#" + id)
+    }
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="card">
+      <div id="teste">
+        Binary2Decimal
+      </div>
+      <span id="error">Coloque um valor de 0 a 1</span>
+      <input class="binaryInput" id="input" type="text" oninput="processInput()">
+      <h2 id="result"></h2>
+    </div>
+  </div>
+
+
+  <script>
+    const errorElement = selectById("error")
+    const inputElement = selectById("input")
+    const resultElement = selectById("result")
+
+    function processInput() {
+      const binary = formatInput(inputElement);
+
+      resultElement.innerText = binaryToDecimal(binary)
+    }
+
+    function formatInput(element) {
+      const binaryText = element.value
+
+      const newText = binaryText.replace(/(?![0-1]).*/g, "")
+
+      if (newText !== binaryText) {
+        errorElement.innerText = "Insira um valor de 0 a 1"
+      } else {
+        errorElement.innerText = ""
+      }
+
+      inputElement.value = newText;
+      return newText
+    }
+
+
+    // const test1 = "100" //4
+    // const test2 = "1" //1
+    // const test3 = "111" //7
+    // const test4 = "1101" //13
+    // const test5 = "1000" //8
+    // const test6 = "1001" //9
+    // const test7 = "1010" //10
+    // const test8 = "1011" //11
+
+    function binaryToDecimal(binary) {
+      let result = 0
+
+      binary
+        .split("")
+        .map(Number)
+        .reverse()
+        .map((number, index) => {
+          result += number * Math.pow(2, index)
+        })
+
+      return result
+    }
+  </script>
+
+</body>
+
+</html>
